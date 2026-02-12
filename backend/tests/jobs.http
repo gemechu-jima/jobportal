@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:5000/api
+@contentType = application/json
+@authToken = "Your token"
+
+### Get All Active Jobs
+GET {{baseUrl}}/jobs
+
+### Get Single Job
+GET {{baseUrl}}/jobs/1
+
+### Filter Jobs (Location & Keyword)
+GET {{baseUrl}}/jobs/filter?location=New York&keyword=Developer
+
+### Create a New Job (Requires Employer/Admin Token)
+POST {{baseUrl}}/jobs
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Senior Node.js Developer",
+    "description": "We are looking for a backend expert...",
+    "company_name": "Tech Corp",
+    "location": "Remote",
+    "salary_range": "$80k - $120k",
+    "job_type": "full-time",
+    "deadline": "2026-12-31"
+}
+
+### Publish Job to External Channels
+POST {{baseUrl}}/jobs/1/publish
+Authorization: Bearer {{authToken}}
+
+### Close a Job (Deactivate)
+PATCH {{baseUrl}}/jobs/1/close
+Authorization: Bearer {{authToken}}

@@ -1,0 +1,5 @@
+export const APPLICATION_STATUS = {
+    PENDING: 'PENDING',
+    ACCEPTED: 'ACCEPTED',
+    REJECTED: 'REJECTED'
+};

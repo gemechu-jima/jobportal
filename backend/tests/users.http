@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:5000/api
+@contentType = application/json
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImNhbmRpZGF0ZSIsImlhdCI6MTc3MDgxNDM5MiwiZXhwIjoxNzcwODE3OTkyfQ.wKDMNA4vb62FXaE72obK8RzY9Kf7KTy4z9zeL8KYF7M
+
+### Get My Profile
+GET {{baseUrl}}/users/profile
+Authorization: Bearer {{authToken}}
+
+### Update My Profile
+PUT {{baseUrl}}/users/profile
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "username": "updated_name",
+    "email": "updated@example.com"
+}
+
+### List All Users (Admin Only)
+GET {{baseUrl}}/users/
+Authorization: Bearer {{authToken}}
+
+### Change User Role (Admin Only)
+PATCH {{baseUrl}}/users/1/role
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "role": "employer"
+}
+
+### Filter Users by Role (Admin Only)
+GET {{baseUrl}}/users/filter?role=candidate
+Authorization: Bearer {{authToken}}

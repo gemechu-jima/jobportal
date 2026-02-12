@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:5000/api
+@contentType = application/json
+
+### Register a New User
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+    "username": "candidate_test",
+    "email": "candidate@example.com",
+    "password": "password123",
+    "role": "candidate"
+}
+
+### Login User
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+    "email": "candidate@example.com",
+    "password": "password123"
+}
+
+### Capture the token from login response
+@authToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": "{{refreshToken}}"
+}
+
+### Refresh Token
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": "{{refreshToken}}"
+}

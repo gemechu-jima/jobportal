@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:5000/api
+@contentType = application/json
+@authToken = YOUR_JWT_TOKEN_HERE
+
+### Apply for a Job
+POST {{baseUrl}}/applications/apply
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "job_id": 1,
+    "applied_from": "website"
+}
+
+### Get My Applications (Candidate)
+GET {{baseUrl}}/applications/my-applications
+Authorization: Bearer {{authToken}}
+
+### Get Applicants for a Job (Employer/Admin Only)
+GET {{baseUrl}}/applications/job/1
+Authorization: Bearer {{authToken}}
+
+### Update Application Status
+PATCH {{baseUrl}}/applications/1/status
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+    "status": "reviewed"
+}
+
+### List All Applications (Admin Only)
+GET {{baseUrl}}/applications/
+Authorization: Bearer {{authToken}}

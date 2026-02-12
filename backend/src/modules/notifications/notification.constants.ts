@@ -1,0 +1,4 @@
+export const NOTIFICATION_TYPES = {
+    EMAIL: 'EMAIL',
+    TELEGRAM: 'TELEGRAM'
+};
