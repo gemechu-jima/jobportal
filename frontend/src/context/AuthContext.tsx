@@ -1,13 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { User, LoginCredentials, RegisterCredentials } from '../types/auth'; // Using type-only import
+import type { User, LoginCredentials, RegisterCredentials, AuthResponse } from '../types/auth'; // Using type-only import
 import { loginUser as apiLogin, registerUser as apiRegister, logoutUser as apiLogout } from '../services/authService';
 
 interface AuthContextType {
     user: User | null;
     token: string | null;
     loading: boolean;
-    login: (data: LoginCredentials) => Promise<void>;
+    login: (data: LoginCredentials) => Promise<AuthResponse>;
     register: (data: RegisterCredentials) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
@@ -37,23 +37,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(false);
     }, []);
 
-    const login = async (credentials: LoginCredentials) => {
+    const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
         try {
             const response = await apiLogin(credentials);
-            // apiLogin already sets 'token' in localStorage in authService.ts (based on previous view)
-            // But we should sync state and maybe store user too.
-
-            const { token: newToken, user: newUser } = response;
+            const { accessToken: newToken, user: newUser } = response;
 
             setToken(newToken);
             setUser(newUser);
 
             localStorage.setItem('token', newToken); // Redundant if service does it, but safe
             localStorage.setItem('user', JSON.stringify(newUser));
+
+            return response;
         } catch (error) {
             throw error;
         }
     };
+
 
     const register = async (credentials: RegisterCredentials) => {
         try {

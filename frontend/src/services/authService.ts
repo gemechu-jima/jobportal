@@ -8,8 +8,8 @@ export const registerUser = async (data: RegisterCredentials): Promise<AuthRespo
 
 export const loginUser = async (data: LoginCredentials): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/login', data);
-    if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+    if (response.data.accessToken) {
+        localStorage.setItem('token', response.data.accessToken);
     }
     return response.data;
 };
