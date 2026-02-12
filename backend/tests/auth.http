@@ -6,10 +6,10 @@ POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
-    "username": "candidate_test",
-    "email": "candidate@example.com",
-    "password": "password123",
-    "role": "candidate"
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "123456",
+    "role": "admin"
 }
 
 ### Login User

@@ -1,7 +1,17 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { User, LoginCredentials, RegisterCredentials, AuthResponse } from '../types/auth'; // Using type-only import
+import type { User, LoginCredentials, RegisterCredentials, AuthResponse, UpdateProfileData, ChangePasswordData } from '../types/auth'; // Using type-only import
 import { loginUser as apiLogin, registerUser as apiRegister, logoutUser as apiLogout } from '../services/authService';
+import {
+    getUserById as apiGetUserById,
+    updateProfile as apiUpdateProfile,
+    changePassword as apiChangePassword,
+    deleteAccount as apiDeleteAccount,
+    getProfile as apiGetProfile,
+    listUsers as apiListUsers,
+    adminUpdateUser as apiAdminUpdateUser,
+    adminDeleteUser as apiAdminDeleteUser
+} from '../services/userService';
 
 interface AuthContextType {
     user: User | null;
@@ -10,8 +20,17 @@ interface AuthContextType {
     login: (data: LoginCredentials) => Promise<AuthResponse>;
     register: (data: RegisterCredentials) => Promise<void>;
     logout: () => void;
+    updateProfile: (data: UpdateProfileData) => Promise<void>;
+    changePassword: (data: ChangePasswordData) => Promise<void>;
+    deleteAccount: () => Promise<void>;
+    getUserById: (id: string) => Promise<User>;
+    getProfile: () => Promise<User>;
+    listUsers: () => Promise<User[]>;
+    adminUpdateUser: (id: string, data: UpdateProfileData) => Promise<void>;
+    adminDeleteUser: (id: string) => Promise<void>;
     isAuthenticated: boolean;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -72,6 +91,76 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(null);
     };
 
+    const updateProfile = async (data: UpdateProfileData) => {
+        try {
+            const updatedUser = await apiUpdateProfile(data);
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const changePassword = async (data: ChangePasswordData) => {
+        try {
+            await apiChangePassword(data);
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const deleteAccount = async () => {
+        try {
+            await apiDeleteAccount();
+            logout();
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const getUserById = async (id: string): Promise<User> => {
+        try {
+            return await apiGetUserById(id);
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const getProfile = async (): Promise<User> => {
+        try {
+            const userProfile = await apiGetProfile();
+            setUser(userProfile); // Optional: keep state in sync
+            localStorage.setItem('user', JSON.stringify(userProfile));
+            return userProfile;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const listUsers = async (): Promise<User[]> => {
+        try {
+            return await apiListUsers();
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const adminUpdateUser = async (id: string, data: UpdateProfileData) => {
+        try {
+            await apiAdminUpdateUser(id, data);
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const adminDeleteUser = async (id: string) => {
+        try {
+            await apiAdminDeleteUser(id);
+        } catch (error) {
+            throw error;
+        }
+    };
+
     const value = {
         user,
         token,
@@ -79,8 +168,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         login,
         register,
         logout,
+        updateProfile,
+        changePassword,
+        deleteAccount,
+        getUserById,
+        getProfile,
+        listUsers,
+        adminUpdateUser,
+        adminDeleteUser,
         isAuthenticated: !!token,
     };
+
+
 
     return (
         <AuthContext.Provider value={value}>

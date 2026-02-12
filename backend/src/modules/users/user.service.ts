@@ -1,5 +1,5 @@
 import { User } from './user.model';
-
+import bcrypt from 'bcryptjs';
 
 export const getUserById = async (userId: number) => {
     const user = await User.findByPk(userId, {
@@ -20,6 +20,22 @@ export const updateUser = async (userId: number, data: any) => {
 
     await user.update(data);
     return user;
+};
+
+
+export const changePassword = async (userId: number, data: any) => {
+    const { oldPassword, newPassword } = data;
+    const user = await User.findByPk(userId);
+    if (!user) throw new Error('User not found');
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password_hash);
+    if (!isMatch) throw new Error('Incorrect current password');
+
+    const salt = await bcrypt.genSalt(10);
+    const password_hash = await bcrypt.hash(newPassword, salt);
+
+    await user.update({ password_hash });
+    return { message: 'Password changed successfully' };
 };
 
 

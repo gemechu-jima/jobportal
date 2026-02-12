@@ -23,3 +23,14 @@ export interface LoginCredentials {
     email: string;
     password: string;
 }
+
+export interface UpdateProfileData {
+    username?: string;
+    email?: string;
+}
+
+export interface ChangePasswordData {
+    oldPassword?: string;
+    newPassword?: string;
+}
+

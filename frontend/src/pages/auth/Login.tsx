@@ -55,15 +55,15 @@ const Login = () => {
                             <input
                                 id="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-text-main dark:text-gray-300">
                                 Remember me
                             </label>
                         </div>
 
                         <div className="text-sm">
-                            <Link to="#" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+                            <Link to="#" className="font-medium text-primary hover:text-primary-hover dark:text-indigo-400">
                                 Forgot your password?
                             </Link>
                         </div>
@@ -78,12 +78,13 @@ const Login = () => {
                     </Button>
                 </form>
 
-                <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="mt-6 text-center text-sm text-text-muted dark:text-gray-400">
                     <p>
                         Don't have an account?{' '}
-                        <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+                        <Link to="/register" className="font-medium text-primary hover:text-primary-hover dark:text-indigo-400">
                             Sign up
                         </Link>
+
                     </p>
                 </div>
             </Card>
