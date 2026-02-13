@@ -9,12 +9,13 @@ const router = Router();
 // Public/Candidate Routes
 router.post('/create-profile', verifyToken, profileValidation, validate, applicationController.createProfile);
 router.post('/apply', verifyToken, applicationValidation, validate, applicationController.apply);
-router.get('/my-applications', verifyToken, applicationController.getByUser);
 
 // Employer/Admin Routes
 router.get('/job/:jobId', verifyToken, authorize('employer', 'admin'), applicationController.getByJob);
 router.get('/', verifyToken, authorize('admin'), applicationController.listAll);
 router.patch('/:id/status', verifyToken, authorize('employer', 'admin'), statusUpdateValidation, validate, applicationController.updateStatus);
 router.delete('/:id', verifyToken, authorize('admin'), applicationController.remove);
-
+router.get('/employer/:employerId', verifyToken, authorize('employer', 'admin'), applicationController.getByEmployerId);
+// user applications
+router.get('/user/:userId', verifyToken, applicationController.getByUser);
 export default router;

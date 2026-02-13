@@ -76,3 +76,16 @@ export const remove = async (req: Request, res: Response) => {
         res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: error.message });
     }
 };
+
+export const getByEmployerId = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user?.id || req.params.employerId;
+        console.log(userId);
+        if (!userId) throw new Error('Not authenticated');
+        const applications = await applicationService.getAllApplicationByEmployerId(Number(userId));
+        res.status(StatusCodes.OK).json({ success: true, data: applications });
+    } catch (error: any) {
+        res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: error.message });
+    }
+};
+

@@ -129,6 +129,7 @@ export const getApplicationsByUser = async (userId: number) => {
             { model: Job },
             {
                 model: Applicant,
+                required: true,
                 where: { user_id: userId }
             }
         ]
@@ -166,4 +167,16 @@ export const deleteApplication = async (applicationId: number) => {
     if (!application) throw new Error('Application not found');
     await application.destroy();
     return { message: 'Application deleted successfully' };
+};
+
+export const getAllApplicationByEmployerId = async (employerId: number) => {
+    return await JobApplication.findAll({
+        include: [
+            {
+                model: Job,
+                where: { posted_by: employerId }
+            },
+            { model: Applicant }
+        ]
+    });
 };

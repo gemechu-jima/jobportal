@@ -13,14 +13,18 @@ import JobDetail from '../pages/jobs/JobDetail';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 
-// Dashboard Components
+// Dashboard admin
+import AdminDashboard from '../pages/admin/Dashboard';
+//employer dashboard
 import EmployerDashboard from '../pages/employer/Dashboard';
-import CreateJob from '../pages/employer/CreateJob';
 import MyJobs from '../pages/employer/MyJobs';
 import JobApplications from '../pages/employer/JobApplications';
+import CreateJob from '../pages/employer/CreateJob';
+import Applications from '../pages/employer/Application';
+import CompanyProfile from '../pages/employer/CompanyProfile';
+// candidate dashboard
 import CandidateDashboard from '../pages/candidate/Dashboard';
-import AdminDashboard from '../pages/admin/Dashboard';
-
+import MyApplications from '../pages/candidate/MyApplications';
 
 
 const AppRoutes: React.FC = () => {
@@ -43,9 +47,9 @@ const AppRoutes: React.FC = () => {
                     <Route path="jobs/:id/applications" element={<JobApplications />} />
                     <Route path="jobs/:id" element={<JobDetail />} />
                     <Route path="jobs" element={<MyJobs />} />
-                    <Route path="profile" element={<div>Company Profile Page</div>} />
-                    <Route path="applications" element={<JobApplications />}  />
-                </Route>
+                    <Route path="profile" element={<CompanyProfile/>} />
+                    <Route path="applications" element={<Applications />}  />
+                </Route>-
             </Route>
 
 
@@ -55,7 +59,7 @@ const AppRoutes: React.FC = () => {
                     <Route path="dashboard" element={<CandidateDashboard />} />
                     <Route path="jobs" element={<JobListing />} />
                     <Route path="jobs/:id" element={<JobDetail />} />
-                    <Route path="applications" element={<div>My Applications Page</div>} />
+                    <Route path="applications" element={<MyApplications/>} />
                     <Route path="saved" element={<div>Saved Jobs Page</div>} />
                     <Route path="profile" element={<div>My Profile Page</div>} />
                 </Route>
