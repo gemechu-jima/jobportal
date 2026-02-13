@@ -34,9 +34,12 @@ const Home = () => {
                                     className="mb-0"
                                 />
                             </div>
-                            <Button variant="primary" size="lg" className="w-full md:w-auto h-[42px] px-8">
-                                Search Jobs
-                            </Button>
+                            <Link to="/jobs" className="w-full md:w-auto">
+                                <Button variant="primary" size="lg" className="w-full h-[42px] px-8">
+                                    Search Jobs
+                                </Button>
+                            </Link>
+
                         </div>
                     </Card>
 

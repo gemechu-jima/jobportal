@@ -43,6 +43,34 @@ export const getAllJobs = async () => {
     });
 };
 
+export const getJobsByEmployer = async (employerId: number) => {
+    const { JobApplication } = require('../applications/job-application.model');
+    
+    return await Job.findAll({
+        where: { posted_by: employerId },
+        include: [
+            {
+                model: JobApplication,
+                attributes: [],
+                required: false
+            }
+        ],
+        attributes: {
+            include: [
+                [
+                    require('sequelize').fn('COUNT', require('sequelize').col('JobApplications.id')),
+                    'application_count'
+                ]
+            ]
+        },
+        group: ['Job.id'],
+        order: [['created_at', 'DESC']],
+        subQuery: false
+    });
+};
+
+
+
 /**
  * getJobsByFilter(): Filter jobs by location, type, keyword
  */

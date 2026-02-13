@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
 import { Card, Button, Table, Badge } from '../../components/common';
 import { ProfileSection, SettingsSection } from '../../components/dashboard/ProfileManage';
@@ -8,9 +10,9 @@ const CandidateDashboard = () => {
     const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'settings'>('overview');
 
     const mockApplications = [
-        { id: 1, company: 'Google', position: 'Frontend Engineer', status: 'pending', date: '2024-03-10' },
-        { id: 2, company: 'Meta', position: 'React Developer', status: 'accepted', date: '2024-03-08' },
-        { id: 3, company: 'Amazon', position: 'Software Engineer', status: 'rejected', date: '2024-03-05' },
+        { id: 1, jobId: 1, company: 'Google', position: 'Frontend Engineer', status: 'pending', date: '2024-03-10' },
+        { id: 2, jobId: 2, company: 'Meta', position: 'React Developer', status: 'accepted', date: '2024-03-08' },
+        { id: 3, jobId: 3, company: 'Amazon', position: 'Software Engineer', status: 'rejected', date: '2024-03-05' },
     ];
 
     const columns = [
@@ -30,11 +32,14 @@ const CandidateDashboard = () => {
         },
         {
             header: 'Action',
-            accessor: () => (
-                <Button variant="ghost" size="sm">View Detail</Button>
+            accessor: (item: any) => (
+                <Link to={`/candidate/jobs/${item.jobId}`}>
+                    <Button variant="ghost" size="sm">View Detail</Button>
+                </Link>
             )
         }
     ];
+
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">

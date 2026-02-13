@@ -52,6 +52,18 @@ export const getAll = async (req: Request, res: Response) => {
     }
 };
 
+export const getMyJobs = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user?.id;
+        if (!userId) throw new Error('Unauthorized');
+        const jobs = await jobService.getJobsByEmployer(userId);
+        res.status(StatusCodes.OK).json({ success: true, data: jobs });
+    } catch (error: any) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message });
+    }
+};
+
+
 export const filter = async (req: Request, res: Response) => {
     try {
         const jobs = await jobService.getJobsByFilter(req.query);

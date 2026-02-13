@@ -1,28 +1,129 @@
-import React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { Card, Input, TextArea, Select, Button } from '../../components/common';
+import { createJob } from '../../services/jobService';
+import type { CreateJobData } from '../../types/job';
 
-const CreateJob: React.FC = () => {
+const CreateJob = () => {
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<CreateJobData>();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onSubmit = async (data: CreateJobData) => {
+        setIsLoading(true);
+        try {
+            await createJob(data);
+            toast.success('Job posted successfully!');
+            navigate('/employer/dashboard');
+        } catch (error: any) {
+            console.error('Failed to create job:', error);
+            const errorMessage = error?.response?.data?.message || error?.message || 'Failed to create job';
+            toast.error(errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-            <h1 className="text-3xl font-bold mb-6">Post a New Job</h1>
-            <form className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md space-y-6">
-                <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Job Title</label>
-                    <input type="text" id="title" placeholder="e.g. Senior Frontend Developer" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 sm:text-sm p-2" />
-                </div>
-                <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Job Description</label>
-                    <textarea id="description" rows={4} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 sm:text-sm p-2" placeholder="Write a detailed job description..."></textarea>
-                </div>
-                <div>
-                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
-                    <input type="text" id="location" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 sm:text-sm p-2" placeholder="e.g. Remote, New York, NY" />
-                </div>
-                <div className="flex justify-end">
-                    <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Post Job
-                    </button>
-                </div>
-            </form>
+        <div className="p-6 max-w-3xl mx-auto">
+            <header className="mb-8">
+                <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => navigate(-1)}
+                    className="mb-4"
+                >
+                    ← Back to Dashboard
+                </Button>
+                <h1 className="text-3xl font-bold text-text-main">Post a New Job</h1>
+                <p className="text-text-muted mt-1">Fill in the details below to find your next great hire.</p>
+            </header>
+
+            <Card className="p-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Input
+                            label="Job Title"
+                            placeholder="e.g. Senior React Developer"
+                            error={errors.title?.message}
+                            {...register('title', { 
+                                required: 'Title is required',
+                                minLength: { value: 5, message: 'Title must be at least 5 characters' }
+                            })}
+                        />
+                        <Input
+                            label="Company Name"
+                            placeholder="e.g. Acme Corp"
+                            error={errors.company_name?.message}
+                            {...register('company_name', { required: 'Company name is required' })}
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Input
+                            label="Location"
+                            placeholder="e.g. New York, NY or Remote"
+                            error={errors.location?.message}
+                            {...register('location', { required: 'Location is required' })}
+                        />
+                        <Select
+                            label="Job Type"
+                            options={[
+                                { label: 'Full-time', value: 'full-time' },
+                                { label: 'Part-time', value: 'part-time' },
+                                { label: 'Contract', value: 'contract' },
+                                { label: 'Remote', value: 'remote' }
+                            ]}
+                            error={errors.job_type?.message}
+                            {...register('job_type', { required: 'Job type is required' })}
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Input
+                            label="Salary Range (Optional)"
+                            placeholder="e.g. $80k - $120k"
+                            error={errors.salary_range?.message}
+                            {...register('salary_range')}
+                        />
+                        <Input
+                            label="Application Deadline"
+                            type="date"
+                            error={errors.deadline?.message}
+                            {...register('deadline', { required: 'Deadline is required' })}
+                        />
+                    </div>
+
+                    <TextArea
+                        label="Job Description"
+                        placeholder="Describe the role, responsibilities, and requirements..."
+                        rows={8}
+                        error={errors.description?.message}
+                        {...register('description', { required: 'Description is required' })}
+                    />
+
+                    <div className="flex justify-end gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                        <Button 
+                            type="button" 
+                            variant="ghost" 
+                            onClick={() => navigate(-1)}
+                            disabled={isSubmitting || isLoading}
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            type="submit" 
+                            variant="primary" 
+                            isLoading={isSubmitting || isLoading}
+                            className="px-8"
+                        >
+                            Post Job
+                        </Button>
+                    </div>
+                </form>
+            </Card>
         </div>
     );
 };

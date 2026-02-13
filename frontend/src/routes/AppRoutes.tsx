@@ -7,13 +7,21 @@ import AdminLayout from '../layouts/AdminLayout';
 import Home from '../pages/home/Home';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import JobListing from '../pages/jobs/JobListing';
+import JobDetail from '../pages/jobs/JobDetail';
 
 import ProtectedRoute from '../components/ProtectedRoute';
 
+
 // Dashboard Components
 import EmployerDashboard from '../pages/employer/Dashboard';
+import CreateJob from '../pages/employer/CreateJob';
+import MyJobs from '../pages/employer/MyJobs';
+import JobApplications from '../pages/employer/JobApplications';
 import CandidateDashboard from '../pages/candidate/Dashboard';
 import AdminDashboard from '../pages/admin/Dashboard';
+
+
 
 const AppRoutes: React.FC = () => {
     return (
@@ -22,29 +30,37 @@ const AppRoutes: React.FC = () => {
                 <Route index element={<Home />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
+                <Route path="jobs" element={<JobListing />} />
+                <Route path="jobs/:id" element={<JobDetail />} />
             </Route>
+
 
 
             <Route path="/employer" element={<ProtectedRoute />}>
                 <Route element={<EmployerLayout />}>
                     <Route path="dashboard" element={<EmployerDashboard />} />
-                    {/* Add more employer routes here */}
-                    <Route path="jobs" element={<div>My Jobs Page</div>} />
+                    <Route path="jobs/create" element={<CreateJob />} />
+                    <Route path="jobs/:id/applications" element={<JobApplications />} />
+                    <Route path="jobs/:id" element={<JobDetail />} />
+                    <Route path="jobs" element={<MyJobs />} />
                     <Route path="profile" element={<div>Company Profile Page</div>} />
-                    <Route path="applications" element={<div>Applications Page</div>} />
+                    <Route path="applications" element={<JobApplications />}  />
                 </Route>
             </Route>
+
+
 
             <Route path="/candidate" element={<ProtectedRoute />}>
                 <Route element={<CandidateLayout />}>
                     <Route path="dashboard" element={<CandidateDashboard />} />
-                    {/* Add more candidate routes here */}
-                    <Route path="jobs" element={<div>Jobs Search Page</div>} />
+                    <Route path="jobs" element={<JobListing />} />
+                    <Route path="jobs/:id" element={<JobDetail />} />
                     <Route path="applications" element={<div>My Applications Page</div>} />
                     <Route path="saved" element={<div>Saved Jobs Page</div>} />
                     <Route path="profile" element={<div>My Profile Page</div>} />
                 </Route>
             </Route>
+
 
             <Route path="/admin" element={<ProtectedRoute />}>
                 <Route element={<AdminLayout />}>

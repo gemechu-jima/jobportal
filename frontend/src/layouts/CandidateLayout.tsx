@@ -1,10 +1,11 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button, Avatar } from '../components/common';
 
 const CandidateLayout = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const menuItems = [
         { label: 'Dashboard', path: '/candidate/dashboard', icon: '🏠' },
@@ -13,6 +14,7 @@ const CandidateLayout = () => {
         { label: 'Saved Jobs', path: '/candidate/saved', icon: '⭐' },
         { label: 'My Profile', path: '/candidate/profile', icon: '👤' },
     ];
+
 
     return (
         <div className="flex h-screen bg-bg-main overflow-hidden">
@@ -25,7 +27,28 @@ const CandidateLayout = () => {
                     <p className="text-[10px] uppercase tracking-widest text-text-muted mt-1 font-bold">Candidate Portal</p>
                 </div>
 
-                <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+                <div className="p-4">
+                    <div className="relative group">
+                        <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-text-muted transition-colors group-focus-within:text-primary">
+                            🔍
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Quick job search..."
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:text-white"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    const value = (e.target as HTMLInputElement).value;
+                                    navigate(`/candidate/jobs?keyword=${encodeURIComponent(value)}`);
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+
+
+                <nav className="flex-1 overflow-y-auto p-4 pt-0 space-y-1">
+
                     {menuItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
