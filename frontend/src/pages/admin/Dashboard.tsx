@@ -3,10 +3,11 @@ import { useAuth } from '../../context/AuthContext';
 import { Card, Button, Table, Badge } from '../../components/common';
 import { ProfileSection, SettingsSection } from '../../components/dashboard/ProfileManage';
 import { UserManageTable } from '../../components/dashboard/UserManageTable';
+import { JobManagement } from '../../components/dashboard/JobManagement';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
-    const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'profile' | 'settings'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'jobs' | 'profile' | 'settings'>('overview');
 
     const mockStats = [
         { id: 1, metric: 'Total Users', value: '1,250', trend: '+12%', type: 'primary' },
@@ -32,7 +33,7 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="p-6 max-w-7xl mx-auto space-y-6">
+        <div className="p-6 max-w-8xl mx-auto space-y-6">
             <header className="flex justify-between items-end border-b border-gray-200 dark:border-gray-700 pb-6">
                 <div>
                     <h1 className="text-3xl font-bold text-text-main">Welcome, Administrator {user?.username}!</h1>
@@ -51,6 +52,12 @@ const AdminDashboard = () => {
                         className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'users' ? 'bg-white dark:bg-gray-700 shadow-sm text-primary' : 'text-text-muted hover:text-text-main'}`}
                     >
                         Users
+                    </button>
+                      <button 
+                        onClick={() => setActiveTab('jobs')}
+                        className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'jobs' ? 'bg-white dark:bg-gray-700 shadow-sm text-primary' : 'text-text-muted hover:text-text-main'}`}
+                    >
+                        Jobs
                     </button>
                     <button 
                         onClick={() => setActiveTab('profile')}
@@ -90,7 +97,7 @@ const AdminDashboard = () => {
                         <Card title="Quick Actions">
                             <div className="grid grid-cols-2 gap-4">
                                 <Button variant="outline" fullWidth onClick={() => setActiveTab('users')}>Manage Users</Button>
-                                <Button variant="outline" fullWidth>Job Moderation</Button>
+                                <Button variant="outline" fullWidth onClick={() => setActiveTab('jobs')}>Job Moderation</Button>
                                 <Button variant="outline" fullWidth>View Reports</Button>
                                 <Button variant="outline" fullWidth>Email Service</Button>
                                 <Button variant="primary" fullWidth className="col-span-2">Generate Platform Report</Button>
@@ -109,7 +116,13 @@ const AdminDashboard = () => {
                     <ProfileSection />
                 </div>
             )}
-
+           {
+            activeTab === 'jobs' && (
+                <div className="">
+                <JobManagement />
+                </div>
+            )
+           }
             {activeTab === 'settings' && (
                 <div className="max-w-2xl mx-auto">
                     <SettingsSection />

@@ -86,10 +86,11 @@ export const JobManagement = () => {
     };
 
     const columns = [
+         {header:"Company", accessor:"company_name" as const},
         { header: 'Title', accessor: 'title' as const },
         { 
             header: 'Status', 
-            accessor: (job: Job) => (
+            accessor: (job: Job) => (    
                 <Badge variant={job.is_active ? 'success' : 'gray'}>
                     {job.is_active ? 'ACTIVE' : 'CLOSED'}
                 </Badge>

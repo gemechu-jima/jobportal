@@ -29,6 +29,6 @@ Content-Type: {{contentType}}
     "status": "reviewed"
 }
 
-### List All Applications (Admin Only)
+### List All Applications (Admin Only)  QRSOHU98
 GET {{baseUrl}}/applications/
 Authorization: Bearer {{authToken}}

@@ -43,11 +43,21 @@ export const getAllJobs = async () => {
     });
 };
 
-export const getJobsByEmployer = async (employerId: number) => {
+export const getJobsByUserRole = async (
+    userId: number,
+    role: 'employer' | 'admin'
+) => {
     const { JobApplication } = require('../applications/job-application.model');
-    
+    const { fn, col } = require('sequelize');
+
+    // Dynamic filter
+    const whereCondition =
+        role === 'employer'
+            ? { posted_by: userId }
+            : {}; // admin → no filter (get all)
+
     return await Job.findAll({
-        where: { posted_by: employerId },
+        where: whereCondition,
         include: [
             {
                 model: JobApplication,
@@ -58,7 +68,7 @@ export const getJobsByEmployer = async (employerId: number) => {
         attributes: {
             include: [
                 [
-                    require('sequelize').fn('COUNT', require('sequelize').col('JobApplications.id')),
+                    fn('COUNT', col('JobApplications.id')),
                     'application_count'
                 ]
             ]
@@ -68,6 +78,7 @@ export const getJobsByEmployer = async (employerId: number) => {
         subQuery: false
     });
 };
+
 
 
 

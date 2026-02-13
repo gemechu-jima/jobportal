@@ -1,3 +1,4 @@
+import { useState } from 'react'; // Added useState
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button, Avatar } from '../components/common';
@@ -5,6 +6,8 @@ import { Button, Avatar } from '../components/common';
 const AdminLayout = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
+    // 1. State to track if sidebar is collapsed
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const menuItems = [
         { label: 'Overview', path: '/admin/dashboard', icon: '🛡️' },
@@ -16,37 +19,61 @@ const AdminLayout = () => {
 
     return (
         <div className="flex h-screen bg-bg-main overflow-hidden">
-            {/* Sidebar */}
-            <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col text-white">
-                <div className="p-6 border-b border-slate-800">
-                    <Link to="/" className="text-xl font-bold text-white flex items-center gap-2">
-                        <span className="text-2xl">🔒</span> AdminPanel
-                    </Link>
-                    <p className="text-[10px] uppercase tracking-widest text-slate-400 mt-1 font-bold">Root Access</p>
+            {/* 2. Dynamic Sidebar Width & Transition */}
+            <aside 
+                className={`${
+                    isCollapsed ? 'w-20' : 'w-64'
+                } bg-slate-900 border-r border-slate-800 flex flex-col text-white transition-all duration-300 ease-in-out`}
+            >
+                <div className={`p-6 border-b border-slate-800 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+                    {!isCollapsed && (
+                        <div>
+                            <Link to="/" className="text-xl font-bold text-white flex items-center gap-2">
+                                <span className="text-2xl">🔒</span> Admin
+                            </Link>
+                            <p className="text-[10px] uppercase tracking-widest text-slate-400 mt-1 font-bold">Root</p>
+                        </div>
+                    )}
+                    {/* 3. Toggle Button */}
+                    <button 
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="p-1 hover:bg-white/10 rounded-md text-slate-400 transition-colors"
+                    >
+                        {isCollapsed ? '➡️' : '⬅️'}
+                    </button>
                 </div>
 
-                <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+                <nav className="flex-1 overflow-y-auto p-4 space-y-2">
                     {menuItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
+                                title={isCollapsed ? item.label : ''} // Tooltip when collapsed
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                                    isActive
                                         ? 'bg-white/10 text-white'
                                         : 'text-slate-400 hover:bg-white/5 hover:text-white'
-                                    }`}
+                                } ${isCollapsed ? 'justify-center px-0' : ''}`}
                             >
-                                <span>{item.icon}</span>
-                                {item.label}
+                                <span className="text-xl">{item.icon}</span>
+                                {/* 4. Hide label when collapsed */}
+                                {!isCollapsed && <span>{item.label}</span>}
                             </Link>
                         );
                     })}
                 </nav>
 
                 <div className="p-4 border-t border-slate-800">
-                    <Button variant="ghost" fullWidth className="justify-start gap-3 text-slate-400 hover:text-white" onClick={logout}>
-                        <span>🚪</span> Logout
+                    <Button 
+                        variant="ghost" 
+                        fullWidth 
+                        className={`text-slate-400 hover:text-white transition-all ${isCollapsed ? 'justify-center p-0' : 'justify-start gap-3'}`} 
+                        onClick={logout}
+                    >
+                        <span>🚪</span> 
+                        {!isCollapsed && "Logout"}
                     </Button>
                 </div>
             </aside>
@@ -69,7 +96,7 @@ const AdminLayout = () => {
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-y-auto bg-bg-main">
+                <main className="flex-1 overflow-y-auto bg-bg-main p-6">
                     <Outlet />
                 </main>
             </div>
