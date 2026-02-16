@@ -24,7 +24,7 @@ export const ProfileSection = () => {
             }
         };
         fetchProfile();
-    }, [getProfile]);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

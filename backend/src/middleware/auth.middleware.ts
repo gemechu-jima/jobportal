@@ -11,9 +11,6 @@ export interface AuthRequest extends Request {
     };
 }
 
-/**
- * verifyToken(): Middleware to check JWT on protected routes
- */
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
     let token;
 
@@ -37,14 +34,37 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
 /**
  * authorize(): Helper to check roles after verifyToken
  */
+
 export const authorize = (...roles: string[]) => {
-    return (req: AuthRequest, res: Response, next: NextFunction) => {
-        if (!req.user || !roles.includes(req.user.role)) {
-            return res.status(StatusCodes.FORBIDDEN).json({
-                success: false,
-                message: `User role ${req.user?.role} is not authorized to access this route`
-            });
-        }
-        next();
-    };
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "No user authenticated"
+      });
+    }
+
+    // If admin, allow everything
+    if (req.user.role === 'admin') {
+      return next();
+    }
+
+    // If role is allowed AND user is updating their own account
+    if (roles.includes(req.user.role)) {
+      if (Number(req.params.id) === req.user.id) {
+        return next();
+      } else {
+        return res.status(StatusCodes.FORBIDDEN).json({
+          success: false,
+          message: "You can only update your own account"
+        });
+      }
+    }
+
+    // Otherwise reject
+    return res.status(StatusCodes.FORBIDDEN).json({
+      success: false,
+      message: `User role ${req.user.role} is not authorized to access this route`
+    });
+  };
 };

@@ -18,6 +18,12 @@ User.init(
             autoIncrement: true,
             primaryKey: true,
         },
+        telegram_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+        },
+
         username: {
             type: DataTypes.STRING,
             allowNull: false,

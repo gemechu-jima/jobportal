@@ -9,7 +9,10 @@ import {
   Input,
 } from "../../components/common";
 import { getJobById } from "../../services/jobService";
-import { applyToJob, getMyApplications } from "../../services/applicationService";
+import {
+  applyToJob,
+  getMyApplications,
+} from "../../services/applicationService";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import type { Job } from "../../types/job";
@@ -28,30 +31,31 @@ const JobDetail = () => {
     phone: "",
     cv_link: "",
   });
-useEffect(() => {
+  useEffect(() => {
     const fetchJob = async () => {
-        if (!id) return;
-        try {
-            const data = await getJobById(id);
-            setJob(data);
+      if (!id) return;
+      try {
+        const data = await getJobById(id);
+        setJob(data);
 
-            // --- ADD THIS PART HERE ---
-            if (isAuthenticated && user?.role === 'candidate') {
-                const myApps = await getMyApplications(Number(user.id));
-                const alreadyApplied = myApps.some((app: any) => app.job_id === Number(id));
-                setHasApplied(alreadyApplied);
-            }
-            // --------------------------
-
-        } catch (error: any) {
-            toast.error(error.message || 'Job not found');
-            navigate('..');
-        } finally {
-            setIsLoading(false);
+        // --- ADD THIS PART HERE ---
+        if (isAuthenticated && user?.role === "candidate") {
+          const myApps = await getMyApplications(Number(user.id));
+          const alreadyApplied = myApps.some(
+            (app: any) => app.job_id === Number(id),
+          );
+          setHasApplied(alreadyApplied);
         }
+        // --------------------------
+      } catch (error: any) {
+        toast.error(error.message || "Job not found");
+        navigate("..");
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchJob();
-}, [id, navigate, isAuthenticated, user]); // Added isAuthenticated and user to dependencies
+  }, [id, navigate, isAuthenticated, user]); // Added isAuthenticated and user to dependencies
 
   useEffect(() => {
     if (user?.username) {
@@ -120,7 +124,7 @@ useEffect(() => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Link
-        to=".."
+        to="/jobs"
         className="inline-flex items-center text-primary hover:underline mb-8"
       >
         <svg
