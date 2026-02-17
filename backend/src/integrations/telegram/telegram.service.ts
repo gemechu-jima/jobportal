@@ -1,12 +1,19 @@
 import { bot } from './bot';
 
-export const sendTelegramMessage = async (
-    telegramId: string | number,
-    message: string
-) => {
-    try {
-        await bot.telegram.sendMessage(telegramId, message);
-    } catch (error) {
-        console.error('Error sending telegram message:', error);
+export class TelegramService {
+    async sendMessage(chatId: number, message: string) {
+        await bot.telegram.sendMessage(chatId, message);
     }
-};
+
+    async notifyEmployer(chatId: number, message: string) {
+        await this.sendMessage(chatId, `Employer: ${message}`);
+    }
+
+    async notifyCandidate(chatId: number, message: string) {
+        await this.sendMessage(chatId, `Candidate: ${message}`);
+    }
+
+    async notifyAdmin(chatId: number, message: string) {
+        await this.sendMessage(chatId, `Admin: ${message}`);
+    }
+}

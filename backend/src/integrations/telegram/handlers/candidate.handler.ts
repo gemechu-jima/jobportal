@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-export const myJobsHandler = async (ctx: Context) => {
+export const candidateKeyboard = async (ctx: Context) => {
     try {
         await ctx.reply('MyJobs command received.');
     } catch (error) {

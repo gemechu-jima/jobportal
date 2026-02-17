@@ -1,14 +1,8 @@
 import { bot } from './bot';
-import { registerHandlers } from './handlers';
+import { startHandler } from './handlers/start.handler';
+import { callbackHandler } from './handlers/callback.handler';
 
-export const initTelegramBot = () => {
-    registerHandlers(bot);
+bot.start(startHandler);
+bot.on('callback_query', callbackHandler);
 
-    bot.launch()
-        .then(() => {
-            console.log('✅ Telegram bot started');
-        })
-        .catch((err) => {
-            console.error('❌ Telegram bot failed to start:', err);
-        });
-};
+export const initTelegramBot = () => bot.launch();
