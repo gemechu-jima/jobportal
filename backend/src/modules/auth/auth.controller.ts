@@ -16,7 +16,20 @@ export const register = async (req: Request, res: Response) => {
         });
     }
 };
-
+export const registerWithTelegram=async(req:Request,res:Response)=>{
+    try {
+        const user=await authService.registerWithTelegramData(req.body)
+        res.status(StatusCodes.CREATED).json({
+            success:true,
+            data:user
+        })
+    } catch (error:any) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
 export const login = async (req: Request, res: Response) => {
     try {
         const result = await authService.login(req.body);
@@ -31,7 +44,22 @@ export const login = async (req: Request, res: Response) => {
         });
     }
 };
+export const loginWithTelegram=async(req:Request,res:Response)=>{
+    try {
+       const result=await authService.loginWithTelegramId(req.body.telegram_id) 
+       res.status(StatusCodes.OK).json({
+           success:true,
+           ...result
+       })
+    } catch (error:any) {
 
+        res.status(StatusCodes.BAD_REQUEST).json({
+            success:false,
+            message:error.message
+        })
+        
+    }
+}
 export const logout = async (req: Request, res: Response) => {
     try {
         const { refreshToken } = req.body;

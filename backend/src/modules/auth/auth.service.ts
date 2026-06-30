@@ -30,7 +30,7 @@ export const register = async (userData: any) => {
   return user;
 };
 
-export const registerWithTelegram = async (telegramData: any) => {
+export const registerWithTelegramData = async (telegramData: any) => {
   const { telegram_id, username, firstName, lastName } = telegramData;
 
   const existingUser = await User.findOne({
@@ -51,8 +51,10 @@ export const registerWithTelegram = async (telegramData: any) => {
     password_hash,
     role: "candidate",
   });
-
-  return user;
+const accessToken = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  return{ user, token:accessToken};
 };
 
 /**
@@ -97,6 +99,39 @@ export const login = async (credentials: any) => {
     refreshToken,
   };
 };
+export const loginWithTelegramId=async (telegram_id:string)=>{
+  try {
+    const user=await User.findOne({where:{telegram_id}})
+    if(!user){
+      throw new Error("User not found")
+    }
+    const accessToken = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    const refreshToken = jwt.sign({ id: user.id }, JWT_REFRESH_SECRET, {
+      expiresIn: "7d",
+    });
+    // Store refresh token for logout functionality
+    await AuthToken.create({
+      user_id: user.id,
+      token: refreshToken,
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+      accessToken,
+      refreshToken,
+    };
+  } catch (error) {
+    throw error;
+  }
+}
+    
 
 /**
  * logout(): Token invalidation (deletes refresh token)
