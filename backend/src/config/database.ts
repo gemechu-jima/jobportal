@@ -5,12 +5,12 @@ dotenv.config();
 
 const sequelize = new Sequelize(
     process.env.db || 'jobportal',
-    process.env.db_user || 'postgres',
-    process.env.db_ps || '',
+    process.env.db_user || 'root',
+    process.env.db_ps || '1234',
     {
         host: process.env.DB_HOST || 'localhost',
-        port: parseInt(process.env.DB_PORT || '5432'),
-        dialect: 'postgres',
+        port: parseInt(process.env.DB_PORT || '3306'),
+        dialect: 'mysql',
         logging: false, // Set to console.log if you want to see SQL queries
     }
 );
