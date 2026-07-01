@@ -71,3 +71,9 @@ export default defineConfig([
   },
 ])
 ```
+/*Users are the central entity of the system. A user can have the role of candidate, employer, or admin. Employers create and manage Jobs, while candidates create an Applicant profile that stores job-related information (CV, phone, etc.) separate from their basic user account.
+
+A JobApplication links an Applicant to a Job, creating a many-to-many relationship: one applicant can apply to many jobs, and one job can receive many applications. This table also stores application-specific details such as status, application date, and application source (website, Telegram, Facebook).
+
+The Auth module is responsible only for authentication and authorization. After a user logs in (via email/password or Telegram), it generates a JWT token that identifies the user in subsequent requests. The token is used to verify the user's identity and role before allowing access to jobs, applications, or other protected resources.
+*/

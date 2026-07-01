@@ -6,9 +6,7 @@ import { AuthToken } from "./auth.model";
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "refresh_secret";
 
-/**
- * register(): Create a new user in DB, hash password, assign role
- */
+// register in two way from browser and telegram
 export const register = async (userData: any) => {
   const { username, email, password, role } = userData;
 
@@ -57,8 +55,8 @@ const accessToken = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
   return{ user, token:accessToken};
 };
 
-/**
- * login(): Verify email + password, generate JWT token
+/*
+  login(): Verify email + password, generate JWT token
  */
 export const login = async (credentials: any) => {
   const { email, password } = credentials;
@@ -133,8 +131,8 @@ export const loginWithTelegramId=async (telegram_id:string)=>{
 }
     
 
-/**
- * logout(): Token invalidation (deletes refresh token)
+/*
+ logout(): Token invalidation (deletes refresh token)
  */
 export const logout = async (refreshToken: string) => {
   await AuthToken.destroy({ where: { token: refreshToken } });

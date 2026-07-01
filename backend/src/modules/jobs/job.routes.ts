@@ -8,7 +8,6 @@ const router = Router();
 
 // Public Routes
 router.get('/', jobController.getAll);
-router.get('/my-jobs', verifyToken, authorize('employer', 'admin'), jobController.getMyJobs);
 router.get('/filter', jobController.filter);
 router.get('/:id', jobController.getOne);
 
@@ -18,6 +17,7 @@ router.put('/:id', verifyToken, authorize('employer', 'admin'), jobValidation, v
 router.delete('/:id', verifyToken, authorize('employer', 'admin'), jobController.remove);
 router.patch('/:id/close', verifyToken, authorize('employer', 'admin'), jobController.close);
 router.post('/:id/publish', verifyToken, authorize('employer', 'admin'), jobController.publish);
+router.get('/my-jobs', verifyToken, authorize('employer', 'admin'), jobController.getMyJobs);
 
 
 export default router;
