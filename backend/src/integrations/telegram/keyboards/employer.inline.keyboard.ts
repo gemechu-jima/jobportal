@@ -1,4 +1,4 @@
-export const employerKeyboard = {
+export const employerInlineKeyboard = {
     reply_markup: {
         inline_keyboard: [
             [{ text: '📊 My Jobs', callback_data: 'EMP_MY_JOBS' }],

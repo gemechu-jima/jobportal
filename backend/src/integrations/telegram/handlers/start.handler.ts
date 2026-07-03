@@ -1,9 +1,12 @@
 import axios from "axios";
 import { Context } from "telegraf";
-import { employerKeyboard } from "../keyboards/employer.keyboard";
-import { candidateKeyboard } from "../keyboards/candidate.keyboard";
-import { adminKeyboard } from "../keyboards/admin.keyboard";
+import { employerInlineKeyboard } from "../keyboards/employer.inline.keyboard";
+import { adminInlineKeyboard } from "../keyboards/admin.inline.keyboard";
+import { candidateInlineKeyboard,  } from "../keyboards/candidate.inline.keyboard";
+import { candidateKeyboard } from "../keyboards/candidate.reply.keyboard";
 
+import * as userService from "../../../modules/users/user.service"
+import * as authService from "../../../modules/auth/auth.service"
 const sessions = new Map<number, string>();
 
 export const startHandler = async (ctx: Context) => {
@@ -47,11 +50,9 @@ export const startHandler = async (ctx: Context) => {
 
     switch (user.role) {
       case "admin":
-        return ctx.reply("Admin Panel", adminKeyboard);
-
+        return ctx.reply("Admin Panel", adminInlineKeyboard);
       case "employer":
-        return ctx.reply("Employer Panel", employerKeyboard);
-
+        return ctx.reply("Employer Panel", employerInlineKeyboard);
       default:
         return ctx.reply("Candidate Panel", candidateKeyboard);
     }
