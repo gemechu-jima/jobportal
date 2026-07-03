@@ -17,6 +17,7 @@ export const register = async (req: Request, res: Response) => {
     }
 };
 export const registerWithTelegram=async(req:Request,res:Response)=>{
+  
     try {
         const user=await authService.registerWithTelegramData(req.body)
         res.status(StatusCodes.CREATED).json({
@@ -45,6 +46,7 @@ export const login = async (req: Request, res: Response) => {
     }
 };
 export const loginWithTelegram=async(req:Request,res:Response)=>{
+    
     try {
        const result=await authService.loginWithTelegramId(req.body.telegram_id) 
        res.status(StatusCodes.OK).json({

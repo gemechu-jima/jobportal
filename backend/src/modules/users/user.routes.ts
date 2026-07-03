@@ -11,7 +11,7 @@ router.get('/profile', verifyToken, userController.getProfile);
 router.put('/profile', verifyToken, updateProfileValidation, validate, userController.updateProfile);
 router.put('/change-password', verifyToken, userController.changePassword);
 router.delete('/profile', verifyToken, userController.deleteAccount);
-
+router.get("/:telegram_id", userController.getUserByTelegramId)
 
 // Admin Routes
 router.get('/', verifyToken, authorize('admin'), userController.listUsers);

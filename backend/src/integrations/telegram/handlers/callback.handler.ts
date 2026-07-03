@@ -1,14 +1,22 @@
 import { Context } from 'telegraf';
-import { adminHandler } from './admin.handler';
-
+import { adminButtonsHandler } from './admin.handler';
+import { employerButtonsHandler } from './employer.handler';
+import { candidateButtonsHandler } from './candidate.handler';
 export const callbackHandler = async (ctx: Context) => {
     const data = (ctx.callbackQuery as any)?.data;
 
     if (!data) return;
 
     if (data.startsWith('ADMIN_')) {
-        return adminHandler(ctx);
+        return adminButtonsHandler(ctx);
     }
+    if (data.startsWith('EMP_')) {
+        return employerButtonsHandler(ctx);
+    }
+    if (data.startsWith('CAN_')) {
+        return candidateButtonsHandler(ctx);
+    }
+
 
     await ctx.answerCbQuery();
 };

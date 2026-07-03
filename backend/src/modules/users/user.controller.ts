@@ -93,3 +93,32 @@ export const changePassword = async (req: AuthRequest, res: Response) => {
         res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: error.message });
     }
 };
+
+export const getUserByTelegramId = async (req: any, res: Response) => {
+    try {
+        const { telegram_id } = req.params;
+        console.log("telgeram id")
+        if (!telegram_id) {
+            return res.status(StatusCodes.BAD_REQUEST).json({
+                success: false,
+                message: "telegram_id is required"
+            });
+        }
+        const user = await userService.getUserByTelegramId(telegram_id);
+        if(!user){
+        return res.status(StatusCodes.OK).json({
+            success: false,
+        });
+        } else{
+             return res.status(StatusCodes.OK).json({
+            success: true,
+            user
+        });
+        }
+    } catch (error: any) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

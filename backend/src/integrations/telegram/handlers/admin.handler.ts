@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-export const adminHandler = async (ctx: Context) => {
+export const adminButtonsHandler = async (ctx: Context) => {
     const data = (ctx.callbackQuery as any)?.data;
 
     if (!data) return;
