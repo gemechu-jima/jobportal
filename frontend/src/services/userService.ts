@@ -8,6 +8,8 @@ interface ApiResponse<T> {
     message?: string;
 }
 
+export type Role = 'candidate' | 'employer' | 'admin';
+
 export const getProfile = async (): Promise<User> => {
     const response = await api.get<ApiResponse<User>>('/users/profile');
     return response.data.data;
@@ -50,4 +52,9 @@ export const adminDeleteUser = async (id: string): Promise<{ message: string }> 
     const response = await api.delete<{ success: boolean; message: string }>(`/users/${id}`);
     return response.data;
 };
+
+export const adminChangeUserRole = async (id: string, role: Role): Promise<User> => {
+    const response = await api.patch<ApiResponse<User>>(`/users/${id}/role`, { role });
+    return response.data.data;
+}
 

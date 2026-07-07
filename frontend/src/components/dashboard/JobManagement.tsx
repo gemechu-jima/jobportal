@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Card, Table, Badge, Button, Modal, Input, TextArea, Select } from '../common';
-import { getMyJobs, deleteJob, updateJob, publishJob, closeJob } from '../../services/jobService';
+import { getMyJobs, deleteJob, updateJob, publishJob, closeJob, getAllJobs } from '../../services/jobService';
 import type { Job, UpdateJobData } from '../../types/job';
 
 export const JobManagement = () => {
@@ -14,7 +14,7 @@ export const JobManagement = () => {
     const fetchMyJobs = async () => {
         setIsLoading(true);
         try {
-            const data = await getMyJobs();
+            const data = await getAllJobs();
             setJobs(data);
         } catch (error: any) {
             toast.error('Failed to fetch your jobs');

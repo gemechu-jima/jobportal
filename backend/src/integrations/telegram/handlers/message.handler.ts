@@ -2,40 +2,22 @@ import { Context } from "telegraf";
 import { candidateMessageHandler} from "./candidate.handler";
 import { employerButtonsHandler} from "./employer.handler";
 import { adminButtonsHandler } from "./admin.handler";
-
+import {BUTTONS} from "../constant/buttons";
 export const messageHandler = async (ctx: Context) => {
     if (!("text" in ctx.message!)) return;
 
     const text = ctx.message.text;
 
-    if (
-        [
-            "🔎 Browse Jobs",
-            "📄 My Applications",
-            "👤 Profile",
-            "❤️ Saved Jobs"
-        ].includes(text)
-    ) {
+    if (BUTTONS.CANDIDATE.includes(text)){
         return candidateMessageHandler(ctx);
     }
 
-    if (
-        [
-            "📊 My Jobs",
-            "👀 View Applications",
-            "❌ Close Job"
-        ].includes(text)
-    ) {
+    if (BUTTONS.EMPLOYER.includes(text)) {
         return employerButtonsHandler(ctx);
     }
 
-    if (
-        [
-            "👥 Users",
-            "💼 Jobs",
-            "📊 Dashboard"
-        ].includes(text)
-    ) {
+    if (BUTTONS.ADMIN.includes(text)){
+    
         return adminButtonsHandler(ctx);
     }
 };

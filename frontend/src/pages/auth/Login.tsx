@@ -17,7 +17,6 @@ const Login = () => {
             });
             toast.success('Login successful!');
 
-            // Redirect based on role
             const role = response.user.role;
             if (role === 'employer') navigate('/employer/dashboard');
             else if (role === 'admin') navigate('/admin/dashboard');

@@ -15,11 +15,12 @@ const transformJob = (job: any): Job => ({
 
 export const getAllJobs = async (): Promise<Job[]> => {
     const response = await api.get<ApiResponse<any[]>>('/jobs');
+    console.log("Response from getAllJobs:", response.data); // Debugging line
     return response.data.data.map(transformJob);
 };
 
-export const getMyJobs = async (): Promise<Job[]> => {
-    const response = await api.get<ApiResponse<any[]>>('/jobs/my-jobs');
+export const getJobsByRole = async (userId: number, role: string): Promise<Job[]> => {
+    const response = await api.get<ApiResponse<any[]>>('/jobs/my-jobs', { params: { userId, role } });
     return response.data.data.map(transformJob);
 };
 
@@ -65,3 +66,9 @@ export const closeJob = async (id: string | number): Promise<{ message: string }
     const response = await api.patch<{ success: boolean; message: string }>(`/jobs/${id}/close`);
     return response.data;
 };
+
+
+export const getMyJobs=async(id:string)=>{
+   const response =await api.patch<{success:Boolean; message:string}>(`/jobs/myjobs/${id}`);
+   return response.data;
+}

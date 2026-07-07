@@ -10,7 +10,9 @@ import {
     getProfile as apiGetProfile,
     listUsers as apiListUsers,
     adminUpdateUser as apiAdminUpdateUser,
-    adminDeleteUser as apiAdminDeleteUser
+    adminDeleteUser as apiAdminDeleteUser,
+    adminChangeUserRole,
+    type Role
 } from '../services/userService';
 
 interface AuthContextType {
@@ -28,6 +30,7 @@ interface AuthContextType {
     listUsers: () => Promise<User[]>;
     adminUpdateUser: (id: string, data: UpdateProfileData) => Promise<void>;
     adminDeleteUser: (id: string) => Promise<void>;
+    adminChangeUserRole: (id: string, role:Role) => Promise<User>;
     isAuthenticated: boolean;
 }
 
@@ -64,7 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setToken(newToken);
             setUser(newUser);
 
-            localStorage.setItem('token', newToken); // Redundant if service does it, but safe
+            localStorage.setItem('token', newToken); 
             localStorage.setItem('user', JSON.stringify(newUser));
 
             return response;
@@ -176,6 +179,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         listUsers,
         adminUpdateUser,
         adminDeleteUser,
+        adminChangeUserRole,
         isAuthenticated: !!token,
     };
 

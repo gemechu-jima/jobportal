@@ -40,7 +40,7 @@ const AppRoutes: React.FC = () => {
 
 
 
-            <Route path="/employer" element={<ProtectedRoute />}>
+            <Route path="/employer" element={<ProtectedRoute allowedRoles={['employer']} />}>
                 <Route element={<EmployerLayout />}>
                     <Route path="dashboard" element={<EmployerDashboard />} />
                     <Route path="jobs/create" element={<CreateJob />} />
@@ -54,7 +54,7 @@ const AppRoutes: React.FC = () => {
 
 
 
-            <Route path="/candidate" element={<ProtectedRoute />}>
+            <Route path="/candidate" element={<ProtectedRoute allowedRoles={['candidate']} />}>
                 <Route element={<CandidateLayout />}>
                     <Route path="dashboard" element={<CandidateDashboard />} />
                     <Route path="jobs" element={<JobListing />} />
@@ -66,7 +66,7 @@ const AppRoutes: React.FC = () => {
             </Route>
 
 
-            <Route path="/admin" element={<ProtectedRoute />}>
+            <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']} />}>
                 <Route element={<AdminLayout />}>
                     <Route path="dashboard" element={<AdminDashboard />} />
                     <Route path="users" element={<div>User Management Page</div>} />

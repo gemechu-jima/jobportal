@@ -106,9 +106,7 @@ export const getJobsByFilter = async (filters: any) => {
     });
 };
 
-/**
- * closeJob(): Set is_active to false
- */
+
 export const closeJob = async (jobId: number) => {
     const job = await Job.findByPk(jobId);
     if (!job) throw new Error('Job not found');
@@ -116,9 +114,6 @@ export const closeJob = async (jobId: number) => {
     return job;
 };
 
-/**
- * publishJob(): Mock trigger for Telegram/Facebook
- */
 export const publishJob = async (jobId: number) => {
     const job = await Job.findByPk(jobId);
     if (!job) throw new Error('Job not found');
@@ -131,4 +126,19 @@ export const publishJob = async (jobId: number) => {
     });
 
     return { success: true, message: 'Job published to external platforms' };
+};
+
+export const getMyJobs = async (userId: number) => {
+    return Job.findAll({
+        where: {
+            posted_by: userId
+        },
+        include: [
+            {
+                model: User,
+                attributes: ["username", "email"]
+            }
+        ],
+        order: [["created_at", "DESC"]]
+    });
 };

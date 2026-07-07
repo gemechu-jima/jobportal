@@ -62,10 +62,10 @@ export const getAll = async (req: Request, res: Response) => {
   }
 };
 
-export const getMyJobs = async (req: AuthRequest, res: Response) => {
+export const getJobsByRole = async (req: AuthRequest, res: Response) => {
+  console.log("User in getJobsByRole:", req.user); // Debugging line
   try {
     const user = req.user;
-
     if (!user) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
@@ -74,12 +74,12 @@ export const getMyJobs = async (req: AuthRequest, res: Response) => {
 
     const { id, role } = user;
 
-if (role !== 'admin' && role !== 'employer') {
-    return res.status(StatusCodes.FORBIDDEN).json({
+    if (role !== 'admin' && role !== 'employer') {
+      return res.status(StatusCodes.FORBIDDEN).json({
         success: false,
         message: 'Access denied'
-    });
-}
+      });
+    }
     const jobs = await jobService.getJobsByUserRole(id, role);
 
     return res.status(StatusCodes.OK).json({ success: true, data: jobs });
@@ -124,3 +124,23 @@ export const publish = async (req: AuthRequest, res: Response) => {
       .json({ success: false, message: error.message });
   }
 };
+
+export const getMyJobs = async (req: AuthRequest, res: Response) => {
+  console.log("User in getMyJobs:", req.user); // Debugging line
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: "Unauthorized",
+      })
+    }
+    const { id} = user;
+    const jobs = await jobService.getMyJobs(id);
+    res.status(StatusCodes.OK).json({ success: true, data: jobs });
+  } catch (error: any) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: error.message });
+  }
+}
