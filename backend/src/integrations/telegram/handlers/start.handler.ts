@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Context } from "telegraf";
-import { employerInlineKeyboard } from "../keyboards/employer.inline.keyboard";
-import { adminInlineKeyboard } from "../keyboards/admin.inline.keyboard";
-import { candidateInlineKeyboard,  } from "../keyboards/candidate.inline.keyboard";
+
 import { candidateKeyboard } from "../keyboards/candidate.reply.keyboard";
+import { adminKeyboard } from "../keyboards/admin.reply.keyboard";
+import { employerKeyboard } from "../keyboards/employer.reply.keyboard";
 
 import * as userService from "../../../modules/users/user.service"
 import * as authService from "../../../modules/auth/auth.service"
@@ -50,9 +50,9 @@ export const startHandler = async (ctx: Context) => {
 
     switch (user.role) {
       case "admin":
-        return ctx.reply("Admin Panel", adminInlineKeyboard);
+        return ctx.reply("Admin Panel", adminKeyboard);
       case "employer":
-        return ctx.reply("Employer Panel", employerInlineKeyboard);
+        return ctx.reply("Employer Panel", employerKeyboard);
       default:
         return ctx.reply("Candidate Panel", candidateKeyboard);
     }

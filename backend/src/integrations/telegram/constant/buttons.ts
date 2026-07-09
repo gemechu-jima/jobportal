@@ -13,8 +13,10 @@ export const BUTTONS = {
   ],
 
   ADMIN: [
-    "👥 Users",
-    "💼 Jobs",
     "📊 Dashboard",
+    "📋 All Jobs",
+    "👥 All Users",
+    "👤 Empoyer",
+    "Candidate"
   ],
 };
