@@ -23,3 +23,7 @@ export const candidateMessageHandler = async (ctx: Context) => {
             return ctx.reply("Unknown command.");
     }
 };
+
+export const candidateInlineHandler=async (ctx: Context)=>{
+
+}

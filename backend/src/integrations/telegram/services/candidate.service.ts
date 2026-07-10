@@ -1,5 +1,4 @@
 import { Context } from "telegraf";
-import { candidateInlineKeyboard } from "../keyboards/candidate.inline.keyboard";
 import * as jobService from "../../../modules/jobs/job.service";
 
 export const browseJobs = async (ctx: Context) => {

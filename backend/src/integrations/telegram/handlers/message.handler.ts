@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
 import { candidateMessageHandler} from "./candidate.handler";
-import { employerButtonsHandler} from "./employer.handler";
-import { adminButtonsHandler } from "./admin.handler";
+import { employerMessageHandler} from "./employer.handler";
+import { adminMessageHandler } from "./admin.handler";
 import {BUTTONS} from "../constant/buttons";
 export const messageHandler = async (ctx: Context) => {
     if (!("text" in ctx.message!)) return;
@@ -13,11 +13,11 @@ export const messageHandler = async (ctx: Context) => {
     }
 
     if (BUTTONS.EMPLOYER.includes(text)) {
-        return employerButtonsHandler(ctx);
+        return employerMessageHandler(ctx);
     }
 
     if (BUTTONS.ADMIN.includes(text)){
     
-        return adminButtonsHandler(ctx);
+        return adminMessageHandler(ctx);
     }
 };

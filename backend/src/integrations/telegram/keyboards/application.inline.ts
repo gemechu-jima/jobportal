@@ -1,4 +1,4 @@
-export const candidateInlineKeyboard = {
+export const applicantInlineKeyboard = {
     reply_markup: {
         inline_keyboard: [
             [{ text: '🔎 Browse Jobs' , callback_data: 'CAN_BROWSE_JOBS'}],

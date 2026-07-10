@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 
-export const employerButtonsHandler = async (ctx: Context) => {
+export const employerMessageHandler = async (ctx: Context) => {
     const callbackData = (ctx.callbackQuery as any)?.data;
 
     if (!callbackData) return;
@@ -19,3 +19,6 @@ export const employerButtonsHandler = async (ctx: Context) => {
 
     await ctx.answerCbQuery();
 };
+ export const employerInlineHandler=async (ctx: Context)=>{
+
+ }

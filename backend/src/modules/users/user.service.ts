@@ -61,7 +61,7 @@ export const changeUserRole = async (
 
 export const getUsersByRole = async (role: string) => {
   return await User.findAll({
-    where: { role },
+    where: {  role: role.toLowerCase()},
     attributes: { exclude: ["password_hash"] },
   });
 };

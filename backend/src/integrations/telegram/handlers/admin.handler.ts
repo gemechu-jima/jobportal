@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 import * as adminService from "../services/admin.service"
-export const adminButtonsHandler = async (ctx: Context) => {
+export const adminMessageHandler = async (ctx: Context) => {
 
     if (!("text" in ctx.message!)) return;
 
@@ -21,15 +21,35 @@ export const adminButtonsHandler = async (ctx: Context) => {
     }
 
 
-    // if (data === 'ADMIN_ALL_JOBS') {
-    //     await ctx.reply('Showing all jobs...');
-    // }
-    // if (data === 'ADMIN_ALL_USERS') {
-    //     await ctx.reply('Showing all users...');
-    // }
+    
+};
 
-    // if (data === 'ADMIN_BLOCK_USER') {
-    //     await ctx.reply('Select user to block...');
-    // }
-    // await ctx.answerCbQuery();
+export const adminInlineHandler = async (ctx: Context) => {
+    if (!ctx.callbackQuery || !("data" in ctx.callbackQuery)) return;
+
+    const data = ctx.callbackQuery.data;
+
+    switch (true) {
+        case data.startsWith("USER_ACTIVATE_"):
+            // call service
+            break;
+
+        case data.startsWith("USER_DEACTIVATE_"):
+            // call service
+            break;
+
+        case data.startsWith("USER_DELETE_"):
+            // call service
+            break;
+
+        case data.startsWith("JOB_DELETE_"):
+            // call service
+            break;
+
+        case data.startsWith("JOB_CLOSE_"):
+            // call service
+            break;
+    }
+
+    await ctx.answerCbQuery();
 };

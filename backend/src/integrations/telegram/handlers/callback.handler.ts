@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
-import { adminButtonsHandler } from './admin.handler';
-import { employerButtonsHandler } from './employer.handler';
+import { adminInlineHandler } from './admin.handler';
+import { employerMessageHandler } from './employer.handler';
 import { candidateMessageHandler } from './candidate.handler';
 export const callbackHandler = async (ctx: Context) => {
     const data = (ctx.callbackQuery as any)?.data;
@@ -8,13 +8,16 @@ export const callbackHandler = async (ctx: Context) => {
     if (!data) return;
 
     if (data.startsWith('ADMIN_')) {
-        return adminButtonsHandler(ctx);
+        return adminInlineHandler(ctx);
     }
     if (data.startsWith('EMP_')) {
-        return employerButtonsHandler(ctx);
+        return employerMessageHandler(ctx);
     }
     if (data.startsWith('CAN_')) {
         return candidateMessageHandler(ctx);
+    }
+    if (data.startsWith("USER")){
+        return adminInlineHandler(ctx);
     }
 
 
