@@ -113,3 +113,35 @@ TELEGRAM_CHAT_ID=your_chat_id (optional)
 
 ## 🧪 Testing
 Test files are located in `backend/tests/`. Use the VS Code **REST Client** extension to run `.http` files.
+
+telegram/
+│
+├── bot.ts
+├── index.ts
+│
+├── handlers/
+│   ├── start.handler.ts
+│   ├── callback.handler.ts          // Inline keyboard callbacks
+│   ├── message.handler.ts           // Reply keyboard messages
+│   │
+│   ├── admin.handler.ts
+│   ├── employer.handler.ts
+│   └── candidate.handler.ts
+│
+├── keyboards/
+│   ├── admin.reply.keyboard.ts
+│   ├── employer.reply.keyboard.ts
+│   ├── candidate.reply.keyboard.ts
+│   │
+│   ├── admin.inline.keyboard.ts
+│   ├── employer.inline.keyboard.ts
+│   └── candidate.inline.keyboard.ts
+│
+├── services/
+│   ├── telegram.service.ts
+│   ├── admin.service.ts
+│   ├── employer.service.ts
+│   └── candidate.service.ts
+│
+└── middleware/
+    └── auth.middleware.ts

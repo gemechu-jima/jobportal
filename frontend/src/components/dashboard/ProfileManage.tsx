@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Card, Input, Button } from '../common';
+import { Card, Input, Button} from '../common';
 import { toast } from 'react-toastify';
 
 export const ProfileSection = () => {
@@ -153,3 +153,4 @@ export const SettingsSection = () => {
         </div>
     );
 };
+

@@ -1,9 +1,12 @@
 import axios from "axios";
 import { Context } from "telegraf";
-import { employerKeyboard } from "../keyboards/employer.keyboard";
-import { candidateKeyboard } from "../keyboards/candidate.keyboard";
-import { adminKeyboard } from "../keyboards/admin.keyboard";
 
+import { candidateKeyboard } from "../keyboards/candidate.reply.keyboard";
+import { adminKeyboard } from "../keyboards/admin.reply.keyboard";
+import { employerKeyboard } from "../keyboards/employer.reply.keyboard";
+
+import * as userService from "../../../modules/users/user.service"
+import * as authService from "../../../modules/auth/auth.service"
 const sessions = new Map<number, string>();
 
 export const startHandler = async (ctx: Context) => {
@@ -15,36 +18,36 @@ export const startHandler = async (ctx: Context) => {
 
     if (!telegram_id) return;
 
-    // Try login first
-    const loginResponse = await axios.post(
-      "http://localhost:5000/auth/telegram-login",
-      { telegram_id }
+    let token: string;
+    let user: any;
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/users/${telegram_id}`
     );
+    if (data.success) {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/telegram-login",
+        { telegram_id }
+      );
 
-    let { token, user } = loginResponse.data;
-    sessions.set(telegram_id, token);
-
-    // If user not found, register via API
-    if (!user) {
-      const registerResponse = await axios.post(
-        "http://localhost:5000/auth/register-with-telegram",
+      token = data.token;
+      user = data.user;
+    } else {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/register-with-telegram",
         {
           telegram_id,
           username,
           firstName,
           lastName,
-          role: "candidate",
         }
       );
-
-      user = registerResponse.data.user;
-      token = registerResponse.data.token;
-      sessions.set(telegram_id, token);
+      token = data.token;
+      user = data.user;
     }
 
-    console.log("user data", user);
+    sessions.set(telegram_id, token);
 
-    // Role-based reply
     switch (user.role) {
       case "admin":
         return ctx.reply("Admin Panel", adminKeyboard);
@@ -53,8 +56,8 @@ export const startHandler = async (ctx: Context) => {
       default:
         return ctx.reply("Candidate Panel", candidateKeyboard);
     }
-  } catch (error) {
-    console.error("Error in startHandler:", error);
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
     return ctx.reply("Something went wrong. Please try again later.");
   }
 };

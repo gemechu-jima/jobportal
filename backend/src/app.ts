@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import axios from 'axios';
 import routes from './routes';
 import { errorHandler } from './middleware/error.middleware';
 import { StatusCodes } from 'http-status-codes';

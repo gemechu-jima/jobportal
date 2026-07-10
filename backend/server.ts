@@ -1,8 +1,8 @@
-import app from './app';
-import { env } from './config/env';
-import connectDB from './config/database';
-import initDB from './config/initDB';
-import { initTelegramBot } from './integrations/telegram';
+import app from './src/app';
+import { env } from './src/config/env';
+import connectDB from './src/config/database';
+import initDB from './src/config/initDB';
+import { initTelegramBot } from './src/integrations/telegram';
 
 initTelegramBot();
 

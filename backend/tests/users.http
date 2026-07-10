@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:5000/api
 @contentType = application/json
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImNhbmRpZGF0ZSIsImlhdCI6MTc3MDgxNDM5MiwiZXhwIjoxNzcwODE3OTkyfQ.wKDMNA4vb62FXaE72obK8RzY9Kf7KTy4z9zeL8KYF7M
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgzMzIyODAyLCJleHAiOjE3ODMzMjY0MDJ9.HedBADErve2b2eNW4AmQuJQnDfUUVuug-OeOemvPOw0
 
 ### Get My Profile
 GET {{baseUrl}}/users/profile

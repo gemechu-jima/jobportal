@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:5000/api
 @contentType = application/json
-@authToken = "Your token"
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgzMzM0OTM0LCJleHAiOjE3ODMzMzg1MzR9.EKGee1fBRDROZpb8DgJ-hdBrHh2RmT_EeIUbBrqnv58
 
 ### Get All Active Jobs
 GET {{baseUrl}}/jobs
@@ -17,7 +17,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: {{contentType}}
 
 {
-    "title": "Senior Node.js Developer",
+    "title": "Junior Node.js Developer",
     "description": "We are looking for a backend expert...",
     "company_name": "Tech Corp",
     "location": "Remote",
@@ -33,3 +33,7 @@ Authorization: Bearer {{authToken}}
 ### Close a Job (Deactivate)
 PATCH {{baseUrl}}/jobs/1/close
 Authorization: Bearer {{authToken}}
+
+
+###
+GET {{baseUrl}}/jobs/my-jobs

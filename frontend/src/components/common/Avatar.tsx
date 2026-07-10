@@ -6,13 +6,7 @@ interface AvatarProps {
     className?: string;
 }
 
-const Avatar = ({
-    src,
-    alt = '',
-    name,
-    size = 'md',
-    className = ''
-}: AvatarProps) => {
+const Avatar = ({src, alt = '',name, size = 'md', className = ''}: AvatarProps) => {
     const sizeClasses = {
         sm: 'h-8 w-8 text-xs',
         md: 'h-10 w-10 text-sm',

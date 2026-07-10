@@ -8,16 +8,22 @@ const router = Router();
 
 // Public Routes
 router.get('/', jobController.getAll);
-router.get('/my-jobs', verifyToken, authorize('employer', 'admin'), jobController.getMyJobs);
 router.get('/filter', jobController.filter);
-router.get('/:id', jobController.getOne);
+router.get('/my-jobs', jobController.getMyJobs);
 
+router.get('/my-jobs', verifyToken, authorize('employer', 'admin'), jobController.getMyJobs);
+router.get('/role', verifyToken, authorize('employer', 'admin'), jobController.getJobsByRole);
+
+// conflict with /:id route, so moved this route after /role
+router.get('/:id', jobController.getOne);
 // Employer/Admin Routes
 router.post('/', verifyToken, authorize('employer', 'admin'), jobValidation, validate, jobController.create);
 router.put('/:id', verifyToken, authorize('employer', 'admin'), jobValidation, validate, jobController.update);
 router.delete('/:id', verifyToken, authorize('employer', 'admin'), jobController.remove);
 router.patch('/:id/close', verifyToken, authorize('employer', 'admin'), jobController.close);
 router.post('/:id/publish', verifyToken, authorize('employer', 'admin'), jobController.publish);
+router.get('/role', verifyToken, authorize('employer', 'admin'), jobController.getJobsByRole);
 
+router.get('/:id', jobController.getOne);
 
 export default router;

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
 export interface AuthRequest extends Request {
     user?: {
@@ -18,13 +18,15 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
         token = req.headers.authorization.split(' ')[1];
     }
 
+  
     if (!token) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ success: false, message: 'Not authorized, no token' });
+        return res.status(StatusCodes.UNAUTHORIZED)
+        .json({ success: false, message: 'Not authorized, no token' });
     }
-
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as { id: number; role: string };
         req.user = decoded;
+       // console.log("Decoded user:", decoded); // Debugging line
         next();
     } catch (error) {
         res.status(StatusCodes.UNAUTHORIZED).json({ success: false, message: 'Not authorized, token failed' });
