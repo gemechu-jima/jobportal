@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Card, Button, Table, Badge } from '../../components/common';
-import { ProfileSection, SettingsSection } from '../../components/dashboard/ProfileManage';
-import { UserManageTable } from '../../components/dashboard/UserManageTable';
-import { JobManagement } from '../../components/dashboard/JobManagement';
+import { ProfileSection, SettingsSection } from '../../components/users/ProfileManage';
+import { UserManageTable } from '../../components/users/UserManageTable';
+import { JobManagement } from '../../components/jobs/JobManagement';
 
 const AdminDashboard = () => {
     const { user } = useAuth();

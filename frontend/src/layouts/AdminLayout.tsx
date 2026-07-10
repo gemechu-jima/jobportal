@@ -50,7 +50,7 @@ const AdminLayout = () => {
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                title={isCollapsed ? item.label : ''} // Tooltip when collapsed
+                                title={isCollapsed ? item.label : ''} 
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                                     isActive
                                         ? 'bg-white/10 text-white'

@@ -77,3 +77,114 @@ A JobApplication links an Applicant to a Job, creating a many-to-many relationsh
 
 The Auth module is responsible only for authentication and authorization. After a user logs in (via email/password or Telegram), it generates a JWT token that identifies the user in subsequent requests. The token is used to verify the user's identity and role before allowing access to jobs, applications, or other protected resources.
 */
+
+src/
+│
+├── api/
+│   ├── axios.ts
+│   ├── auth.api.ts
+│   ├── user.api.ts
+│   ├── job.api.ts
+│   └── application.api.ts
+│
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── styles/
+│
+├── components/
+│   ├── common/
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   ├── Card.tsx
+│   │   ├── Table.tsx
+│   │   ├── Modal.tsx
+│   │   ├── Spinner.tsx
+│   │   └── Pagination.tsx
+│   │
+│   ├── jobs/
+│   ├── users/
+│   ├── application/
+│   └── ProtectedRoute.tsx
+│
+├── constants/
+│   ├── routes.ts
+│   ├── roles.ts
+│   └── menu.ts
+│
+├── hooks/
+│   ├── useAuth.ts
+│   ├── useJobs.ts
+│   └── useUsers.ts
+│
+├── layouts/
+│   ├── MainLayout.tsx
+│   ├── AdminLayout.tsx
+│   ├── EmployerLayout.tsx
+│   └── CandidateLayout.tsx
+│
+├── pages/
+│   ├── auth/
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   │   └── ForgotPassword.tsx
+│   │
+│   ├── home/
+│   │   └── Home.tsx
+│   │
+│   ├── jobs/
+│   │   ├── JobListing.tsx
+│   │   └── JobDetail.tsx
+│   │
+│   ├── admin/
+│   │   ├── Dashboard.tsx
+│   │   ├── Users.tsx
+│   │   ├── Jobs.tsx
+│   │   ├── Reports.tsx
+│   │   └── Settings.tsx
+│   │
+│   ├── employer/
+│   │   ├── Dashboard.tsx
+│   │   ├── CreateJob.tsx
+│   │   ├── EditJob.tsx
+│   │   ├── MyJobs.tsx
+│   │   ├── JobApplications.tsx
+│   │   ├── Application.tsx
+│   │   └── CompanyProfile.tsx
+│   │
+│   └── candidate/
+│       ├── Dashboard.tsx
+│       ├── MyApplications.tsx
+│       ├── SavedJobs.tsx
+│       └── Profile.tsx
+│
+├── routes/
+│   └── AppRoutes.tsx
+│
+├── services/
+│   ├── auth.service.ts
+│   ├── user.service.ts
+│   ├── job.service.ts
+│   └── application.service.ts
+│
+├── store/
+│   ├── store.ts
+│   ├── auth.slice.ts
+│   ├── job.slice.ts
+│   ├── user.slice.ts
+│   └── application.slice.ts
+│
+├── types/
+│   ├── auth.ts
+│   ├── user.ts
+│   ├── job.ts
+│   └── application.ts
+│
+├── utils/
+│   ├── helpers.ts
+│   ├── validators.ts
+│   └── formatters.ts
+│
+├── App.tsx
+├── main.tsx
+└── vite-env.d.ts

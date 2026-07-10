@@ -4,8 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { Card, Button } from '../../components/common';
 
 
-import { ProfileSection, SettingsSection } from '../../components/dashboard/ProfileManage';
-import { JobManagement } from '../../components/dashboard/JobManagement';
+import { ProfileSection, SettingsSection } from '../../components/users/ProfileManage';
+import { JobManagement } from '../../components/jobs/JobManagement';
 
 const EmployerDashboard = () => {
     const { user } = useAuth();

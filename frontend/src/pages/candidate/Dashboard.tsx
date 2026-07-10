@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../context/AuthContext';
 import { Card, Button, Table, Badge } from '../../components/common';
-import { ProfileSection, SettingsSection } from '../../components/dashboard/ProfileManage';
+import { ProfileSection, SettingsSection } from '../../components/users/ProfileManage';
 
 const CandidateDashboard = () => {
     const { user } = useAuth();
